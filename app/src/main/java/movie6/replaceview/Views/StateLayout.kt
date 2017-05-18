@@ -113,11 +113,11 @@ class StateLayout : RelativeLayout {
         typedArray.recycle()
     }
 
-    val emptyView by lazy { makeView(State.EMPTY) }
-    val loadingView by lazy { makeView(State.LOADING) }
-    val errorView by lazy { makeView(State.ERROR) }
+    private val emptyView by lazy { makeView(State.EMPTY) }
+    private val loadingView by lazy { makeView(State.LOADING) }
+    private val errorView by lazy { makeView(State.ERROR) }
 
-    val stateViews by lazy {
+    private val stateViews by lazy {
         listOf(
                 State.EMPTY to emptyView,
                 State.ERROR to errorView,
@@ -125,6 +125,14 @@ class StateLayout : RelativeLayout {
         )
     }
 
+    /**
+     * Show error state view.
+     * Must implement retryButtonClick function.
+     * [iconDrawable] default: R.drawable.ic_email
+     * [title] default: Error
+     * [message] default: This error happens because of network connection failure. You may retry later.
+     * [errorButtonText] default: retry
+     */
     fun showErrorState(iconDrawable: Drawable = errorImage,
                        title: String = errorTitle,
                        message: String = errorContent,
@@ -143,23 +151,21 @@ class StateLayout : RelativeLayout {
 
     }
 
-    fun dismissErrorState() {
-        errorView.visibility = View.GONE
-    }
-
-    fun dismissLoadingState() {
-        loadingView.visibility = View.GONE
-    }
-
-    fun dismissEmptyState() {
-        emptyView.visibility = View.GONE
-    }
-
+    /**
+     * Show loading state view
+     * [message] default: Loading...
+     */
     fun showLoadingState(message: String = loadingContent) {
         showStateInternal(State.LOADING)
         lblLoadingContent.text = message
     }
 
+    /**
+     * Show empty state view
+     * [iconDrawable] default: ic_email
+     * [title] default: No item found
+     * [message] default: Enjoy free day
+     */
     fun showEmptyState(iconDrawable: Drawable = emptyImage,
                        title: String = emptyTitle,
                        message: String = emptyContent
@@ -167,12 +173,37 @@ class StateLayout : RelativeLayout {
         showStateInternal(State.EMPTY)
         lblEmptyTitle.text = title
         lblEmptyContent.text = message
+        imgEmptyIcon.setImageDrawable(iconDrawable)
     }
 
-
+    /**
+     * Hide all state views
+     */
     fun dismissAllState() {
         stateViews.forEach { it.second.visibility = View.GONE }
     }
+
+    /**
+     * hide error state view
+     */
+    fun dismissErrorState() {
+        errorView.visibility = View.GONE
+    }
+
+    /**
+     * hide loading state view
+     */
+    fun dismissLoadingState() {
+        loadingView.visibility = View.GONE
+    }
+
+    /**
+     * hide empty state view
+     */
+    fun dismissEmptyState() {
+        emptyView.visibility = View.GONE
+    }
+
 
     private fun showStateInternal(toState: State) {
         // confirm state views are ready in layout,
@@ -343,11 +374,6 @@ class StateLayout : RelativeLayout {
     }
 }
 
-object Timber {
-    fun d(string: String) {
-        Log.d("StateLayout", string)
-    }
-}
 
 private fun View.removeParentView(): View {
     if (parent != null)
