@@ -26,21 +26,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun callApi() {
-        llState.updateState(StateLayout.State.LOADING, null)
+//        llState.showEmptyState(
+//                title = "Oops! 404 not found."
+//        )
+        llState.showErrorState(
+                title = "Connection failure",
+                message = "Server response error. Please try again later."
+        ){
+            callApi()
+        }
 
-        Handler().postDelayed({
-            try {
-                runOnUiThread {
-                    lblResult.text = "success! result is back"
-                    llState.updateState(StateLayout.State.CONTENT, null)
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                llState.updateState(StateLayout.State.ERROR) {
-                    callApi()
-                }
-            }
-        }, 3000)
+//        Handler().postDelayed({
+//            llState.dismissAllState()
+//        }, 2000)
 
     }
 }

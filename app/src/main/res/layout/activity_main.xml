@@ -5,8 +5,16 @@
     android:id="@+id/llState"
     app:errorTitle="Error"
     app:errorContent="Error error error error error error x3"
-    app:loadingTitle="Loading"
+    app:errorBackgroundColor="@color/colorPrimary"
     app:loadingContent="Loading.. please wait"
+    app:loadingContentTextColor="#696969"
+    app:loadingBackgroundColor="@color/colorPrimary"
+    app:emptyBackgroundColor="@color/colorPrimary"
+    app:emptyTitle="Oops, No item found."
+    app:emptyContent="You may get start from Inbox"
+    app:emptyImage="@drawable/ic_email"
+    app:emptyContentTextColor="#fff"
+    app:emptyTitleTextColor="#fff"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
