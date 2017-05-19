@@ -1,4 +1,4 @@
-package movie6.replaceview;
+package movie6.stateLayout;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

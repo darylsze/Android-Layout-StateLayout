@@ -1,4 +1,4 @@
-package movie6.replaceview;
+package movie6.stateLayout;
 
 import org.junit.Test;
 

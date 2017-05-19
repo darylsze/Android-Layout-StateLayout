@@ -1,16 +1,14 @@
-package movie6.replaceview.Views
+package movie6.stateLayout.Views
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import movie6.replaceview.R
+import movie6.stateLayout.R
 import org.jetbrains.anko.*
 
 
@@ -36,7 +34,6 @@ class StateLayout : RelativeLayout {
     private val loadingContentTextColor: Int
     private val loadingStateProgressBarWidth: Int
     private val loadingStateProgressBarHeight: Int
-    private val loadingStateProgressBarColor: Int
     private val loadingStateBackgroundColor: Int
 
     /**
@@ -80,7 +77,6 @@ class StateLayout : RelativeLayout {
         loadingContentTextColor = typedArray.getColor(R.styleable.StateViews_loadingContentTextColor, Color.BLACK)
         loadingStateProgressBarWidth = typedArray.getDimensionPixelSize(R.styleable.StateViews_loadingProgressBarWidth, 108)
         loadingStateProgressBarHeight = typedArray.getDimensionPixelSize(R.styleable.StateViews_loadingProgressBarHeight, 108)
-        loadingStateProgressBarColor = typedArray.getColor(R.styleable.StateViews_loadingProgressBarColor, Color.RED)
         loadingStateBackgroundColor = typedArray.getColor(R.styleable.StateViews_loadingBackgroundColor, Color.BLUE)
 
         //Empty state attrs
@@ -148,7 +144,6 @@ class StateLayout : RelativeLayout {
         lblErrorTitle.text = title
         lblErrorContent.text = message
         imgErrorIcon.setImageDrawable(iconDrawable)
-
     }
 
     /**
@@ -310,7 +305,6 @@ class StateLayout : RelativeLayout {
 
             // progress bar
             loadingPd = progressBar {
-                indeterminateDrawable.setColorFilter(loadingStateProgressBarColor, PorterDuff.Mode.SRC_IN)
             }.lparams(wrapContent, wrapContent) {
                 width = loadingStateProgressBarWidth
                 height = loadingStateProgressBarHeight
