@@ -1,4 +1,4 @@
-package movie6.stateLayout.Views
+package movie6.stateLayout
 
 import android.content.Context
 import android.graphics.Color
@@ -8,7 +8,6 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import movie6.stateLayout.R
 import org.jetbrains.anko.*
 
 
