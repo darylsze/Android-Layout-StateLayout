@@ -1,8 +1,8 @@
 # Android-StateLayout-Kotlin
 
-##### Simple usage:
+Simple usage:
 ---
-##### 1. in your layout xml, wrap the main content with StateLayout.
+#### 1. in your layout xml, wrap the main content with StateLayout.
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <com.github.daryl.library.StateLayout
@@ -31,9 +31,10 @@
 
 > important: You should remain only ONE child inside StateLayout. For more children, use other layout container to host (LinearLayout / RelativeLayout / FrameLayout)
 
+> To custom statelayout, i.e, background color, icon drawable, text size, text color, etc, go to [customization](#customization)
 
-##### 2. in your kotlin code : 
-to show loading...
+#### 2. in your kotlin code : 
+To show loading...
 ```kotlin
 fun callApi(){
     state.showLoading()
@@ -46,7 +47,7 @@ fun callApi(){
 
 ```
 
-to show empty
+To show empty
 ```kotlin
 // list has empty item.
 fun main(args: Array<String>) {
@@ -55,9 +56,9 @@ fun main(args: Array<String>) {
         
         // or
         state.showEmpty(
-        	icon= empty_icon_drawable,	
-        	title = "No email left"
-        	message = "Enjoy free day!"
+                icon= empty_icon_drawable,	
+                title = "No email left"
+                message = "Enjoy free day!"
         )
         // after items are added
         state.dismissEmpty()
@@ -89,4 +90,47 @@ fun callApi(){
             }
         })
 }
+```
+
+<a name="customization"></a>Customization
+--
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+ <resources>
+     <declare-styleable name="StateViews">
+         <attr name="loadingContent" format="string" />
+         <attr name="loadingImage" format="reference" />
+         <attr name="loadingContentTextSize" format="dimension" />
+         <attr name="loadingContentTextColor" format="color" />
+         <attr name="loadingProgressBarWidth" format="dimension" />
+         <attr name="loadingProgressBarHeight" format="dimension" />
+         <attr name="loadingProgressBarColor" format="color" />
+         <attr name="loadingBackgroundColor" format="color" />
+ 
+         <attr name="emptyTitle" format="string" />
+         <attr name="emptyContent" format="string" />
+         <attr name="emptyImage" format="reference" />
+         <attr name="emptyImageWidth" format="dimension" />
+         <attr name="emptyImageHeight" format="dimension" />
+         <attr name="emptyTitleTextSize" format="dimension" />
+         <attr name="emptyContentTextSize" format="dimension" />
+         <attr name="emptyTitleTextColor" format="color" />
+         <attr name="emptyContentTextColor" format="color" />
+         <attr name="emptyBackgroundColor" format="color" />
+ 
+         <attr name="errorTitle" format="string" />
+         <attr name="errorContent" format="string" />
+         <attr name="errorImage" format="reference" />
+         <attr name="errorImageWidth" format="dimension" />
+         <attr name="errorImageHeight" format="dimension" />
+         <attr name="errorTitleTextSize" format="dimension" />
+         <attr name="errorContentTextSize" format="dimension" />
+         <attr name="errorTitleTextColor" format="color" />
+         <attr name="errorContentTextColor" format="color" />
+         <attr name="errorStateButtonText" format="string" />
+         <attr name="errorButtonTextColor" format="color" />
+         <attr name="errorButtonBackgroundColor" format="color" />
+         <attr name="errorBackgroundColor" format="color" />
+     </declare-styleable>
+</resources>
 ```
