@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">StateLayout</string>
+    <string name="loading">Loading...</string>
+    <string name="btn_retry">Retry</string>
+    <string name="statelayout_network_failure">This error happens because of network connection failture. You may retry later when network connection resume.</string>
+    <string name="errorTitle">Error</string>
 </resources>

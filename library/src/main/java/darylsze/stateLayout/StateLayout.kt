@@ -1,22 +1,27 @@
-package movie6.stateLayout
+package darylsze.stateLayout
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.os.Build
+import android.support.annotation.ColorRes
+import android.support.annotation.StringRes
+import android.support.v4.content.ContextCompat
+import android.support.v7.view.ContextThemeWrapper
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewManager
 import android.widget.*
+import kotlinx.android.synthetic.main.statelayout_progress_horizontal.view.*
 import org.jetbrains.anko.*
-
+import org.jetbrains.anko.custom.ankoView
 
 /**
- * Created by windsze on 16/5/2017.
- * HKMovie. GT.
+ * Created by darylsze on 16/5/2017.
  */
-
-val TAG = "StateLayout"
 
 /**
  * Add three views in advance, change view upon request
@@ -28,55 +33,55 @@ class StateLayout : RelativeLayout {
     /**
      * Loading state property
      */
-    private val loadingContent: String
-    private val loadingContentTextSize: Float
-    private val loadingContentTextColor: Int
-    private val loadingStateProgressBarWidth: Int
-    private val loadingStateProgressBarHeight: Int
-    private val loadingStateBackgroundColor: Int
+    val loadingContent: String
+    val loadingContentTextSize: Float
+    val loadingContentTextColor: Int
+    val loadingStateProgressBarWidth: Int
+    val loadingStateProgressBarHeight: Int
+    val loadingStateBackgroundColor: Int
 
     /**
      * Empty state property
      */
-    private val emptyTitle: String
-    private val emptyContent: String
-    private val emptyImage: Drawable
-    private val emptyStateImageWidth: Int
-    private val emptyStateImageHeight: Int
-    private val emptyStateTitleTextSize: Float
-    private val emptyStateContentTextSize: Float
-    private val emptyStateTitleTextColor: Int
-    private val emptyStateContentTextColor: Int
-    private val emptyStateBackgroundColor: Int
+    val emptyTitle: String
+    val emptyContent: String
+    val emptyImage: Drawable
+    val emptyStateImageWidth: Int
+    val emptyStateImageHeight: Int
+    val emptyStateTitleTextSize: Float
+    val emptyStateContentTextSize: Float
+    val emptyStateTitleTextColor: Int
+    val emptyStateContentTextColor: Int
+    val emptyStateBackgroundColor: Int
 
     /**
      * Error state property
      */
-    private val errorTitle: String
-    private val errorContent: String
-    private val errorImage: Drawable
-    private val errorStateImageWidth: Int
-    private val errorStateImageHeight: Int
-    private val errorStateTitleTextSize: Float
-    private val errorStateContentTextSize: Float
-    private val errorStateTitleTextColor: Int
-    private val errorStateContentTextColor: Int
-    private val errorStateButtonText: String
-    private val errorStateButtonTextColor: Int
-    private val errorStateButtonBackgroundColor: Int
-    private val errorStateBackgroundColor: Int
+    val errorTitle: String
+    val errorContent: String
+    val errorImage: Drawable
+    val errorStateImageWidth: Int
+    val errorStateImageHeight: Int
+    val errorStateTitleTextSize: Float
+    val errorStateContentTextSize: Float
+    val errorStateTitleTextColor: Int
+    val errorStateContentTextColor: Int
+    val errorStateButtonText: String
+    val errorStateButtonTextColor: Int
+    val errorStateButtonBackgroundColor: Int
+    val errorStateBackgroundColor: Int
 
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.StateViews)
 
         //Loading state attrs
-        loadingContent = typedArray.getString(R.styleable.StateViews_loadingContent) ?: "Loading..."
+        loadingContent = typedArray.getString(R.styleable.StateViews_loadingContent) ?: context.getString(R.string.loading)
         loadingContentTextSize = typedArray.getDimensionPixelSize(R.styleable.StateViews_loadingContentTextSize, 14).toFloat()
-        loadingContentTextColor = typedArray.getColor(R.styleable.StateViews_loadingContentTextColor, Color.BLACK)
+        loadingContentTextColor = typedArray.getColor(R.styleable.StateViews_loadingContentTextColor, Color.WHITE)
         loadingStateProgressBarWidth = typedArray.getDimensionPixelSize(R.styleable.StateViews_loadingProgressBarWidth, 108)
         loadingStateProgressBarHeight = typedArray.getDimensionPixelSize(R.styleable.StateViews_loadingProgressBarHeight, 108)
-        loadingStateBackgroundColor = typedArray.getColor(R.styleable.StateViews_loadingBackgroundColor, Color.BLUE)
+        loadingStateBackgroundColor = typedArray.getColor(R.styleable.StateViews_loadingBackgroundColor, context.getCompatibleColor(R.color.background))
 
         //Empty state attrs
         emptyImage = typedArray.getDrawable(R.styleable.StateViews_emptyImage) ?: context.resources.getDrawable(R.drawable.ic_email)
@@ -86,24 +91,24 @@ class StateLayout : RelativeLayout {
         emptyStateImageHeight = typedArray.getDimensionPixelSize(R.styleable.StateViews_emptyImageHeight, 308)
         emptyStateTitleTextSize = typedArray.getDimensionPixelSize(R.styleable.StateViews_emptyTitleTextSize, 17).toFloat()
         emptyStateContentTextSize = typedArray.getDimensionPixelSize(R.styleable.StateViews_emptyContentTextSize, 14).toFloat()
-        emptyStateTitleTextColor = typedArray.getColor(R.styleable.StateViews_emptyTitleTextColor, Color.BLACK)
-        emptyStateContentTextColor = typedArray.getColor(R.styleable.StateViews_emptyContentTextColor, Color.BLACK)
-        emptyStateBackgroundColor = typedArray.getColor(R.styleable.StateViews_emptyBackgroundColor, Color.BLUE)
+        emptyStateTitleTextColor = typedArray.getColor(R.styleable.StateViews_emptyTitleTextColor, Color.WHITE)
+        emptyStateContentTextColor = typedArray.getColor(R.styleable.StateViews_emptyContentTextColor, Color.WHITE)
+        emptyStateBackgroundColor = typedArray.getColor(R.styleable.StateViews_emptyBackgroundColor, context.getCompatibleColor(R.color.background))
 
         //Error state attrs
         errorImage = typedArray.getDrawable(R.styleable.StateViews_errorImage) ?: resources.getDrawable(R.drawable.ic_no_connection)
-        errorTitle = typedArray.getString(R.styleable.StateViews_errorTitle) ?: "Error"
-        errorContent = typedArray.getString(R.styleable.StateViews_errorContent) ?: "This error happens because of network connection failure. You may retry later."
+        errorTitle = typedArray.getString(R.styleable.StateViews_errorTitle) ?: context.getString(R.string.errorTitle)
+        errorContent = typedArray.getString(R.styleable.StateViews_errorContent) ?: context.getString(R.string.statelayout_network_failure)
         errorStateImageWidth = typedArray.getDimensionPixelSize(R.styleable.StateViews_errorImageWidth, 308)
         errorStateImageHeight = typedArray.getDimensionPixelSize(R.styleable.StateViews_errorImageHeight, 308)
         errorStateTitleTextSize = typedArray.getDimensionPixelSize(R.styleable.StateViews_errorTitleTextSize, 17).toFloat()
         errorStateContentTextSize = typedArray.getDimensionPixelSize(R.styleable.StateViews_errorContentTextSize, 14).toFloat()
-        errorStateTitleTextColor = typedArray.getColor(R.styleable.StateViews_errorTitleTextColor, Color.BLACK)
-        errorStateContentTextColor = typedArray.getColor(R.styleable.StateViews_errorContentTextColor, Color.BLACK)
-        errorStateButtonText = typedArray.getString(R.styleable.StateViews_errorStateButtonText) ?: "Retry"
-        errorStateButtonTextColor = typedArray.getColor(R.styleable.StateViews_errorButtonTextColor, Color.BLACK)
-        errorStateButtonBackgroundColor = typedArray.getColor(R.styleable.StateViews_errorButtonBackgroundColor, Color.WHITE)
-        errorStateBackgroundColor = typedArray.getColor(R.styleable.StateViews_errorBackgroundColor, Color.BLUE)
+        errorStateTitleTextColor = typedArray.getColor(R.styleable.StateViews_errorTitleTextColor, Color.WHITE)
+        errorStateContentTextColor = typedArray.getColor(R.styleable.StateViews_errorContentTextColor, Color.WHITE)
+        errorStateButtonText = typedArray.getString(R.styleable.StateViews_errorStateButtonText) ?: context.getString(R.string.btn_retry)
+        errorStateButtonTextColor = typedArray.getColor(R.styleable.StateViews_errorButtonTextColor, context.getCompatibleColor(R.color.colorPrimary))
+        errorStateButtonBackgroundColor = typedArray.getColor(R.styleable.StateViews_errorButtonBackgroundColor, context.getCompatibleColor(R.color.background_button))
+        errorStateBackgroundColor = typedArray.getColor(R.styleable.StateViews_errorBackgroundColor, context.getCompatibleColor(R.color.background))
 
         typedArray.recycle()
     }
@@ -111,14 +116,17 @@ class StateLayout : RelativeLayout {
     private val emptyView by lazy { makeView(State.EMPTY) }
     private val loadingView by lazy { makeView(State.LOADING) }
     private val errorView by lazy { makeView(State.ERROR) }
+    private val progressView by lazy { makeView(State.PROGRESS) }
 
-    private val stateViews by lazy {
-        listOf(
-                State.EMPTY to emptyView,
-                State.ERROR to errorView,
-                State.LOADING to loadingView
-        )
-    }
+    private val stateViews: List<Pair<State, View>>
+            by lazy {
+                listOf(
+                        State.EMPTY to emptyView,
+                        State.ERROR to errorView,
+                        State.LOADING to loadingView,
+                        State.PROGRESS to progressView
+                )
+            }
 
     /**
      * Show error state view.
@@ -128,16 +136,17 @@ class StateLayout : RelativeLayout {
      * [message] default: This error happens because of network connection failure. You may retry later.
      * [errorButtonText] default: retry
      */
-    fun showErrorState(iconDrawable: Drawable = errorImage,
-                       title: String = errorTitle,
-                       message: String = errorContent,
-                       errorButtonText: String = errorStateButtonText,
-                       retryButtonClick: () -> Unit
+    fun showErrorState(
+            iconDrawable: Drawable = errorImage,
+            title: String = errorTitle,
+            message: String = errorContent,
+            errorButtonText: String = errorStateButtonText,
+            retryButtonClick: (() -> Unit)? = null
     ) {
         showStateInternal(State.ERROR)
         btnErrorRetry.setOnClickListener {
-            dismissErrorState()
-            retryButtonClick.invoke()
+            showLoadingState()
+            retryButtonClick?.invoke()
         }
         btnErrorRetry.text = errorButtonText
         lblErrorTitle.text = title
@@ -145,13 +154,42 @@ class StateLayout : RelativeLayout {
         imgErrorIcon.setImageDrawable(iconDrawable)
     }
 
+    fun showErrorState(
+            throwable: Throwable,
+            retryButtonClick: () -> Unit
+    ) {
+        showErrorState(retryButtonClick = retryButtonClick)
+    }
+
     /**
      * Show loading state view
      * [message] default: Loading...
      */
-    fun showLoadingState(message: String = loadingContent) {
+    fun showLoadingState(message: String) {
         showStateInternal(State.LOADING)
         lblLoadingContent.text = message
+    }
+
+    /**
+     * Show loading state view
+     * [message] default: Loading...
+     */
+    fun showLoadingState(@StringRes messageRes: Int = R.string.loading) {
+        showLoadingState(context.getString(messageRes))
+    }
+
+    fun showLoadingProgressState(message: String, newProgress: Int) {
+        showStateInternal(State.PROGRESS)
+        updateLoadingProgress(newProgress)
+        getLoadingProgressView().lblLoading.text = message
+    }
+
+    private fun getLoadingProgressView(): View {
+        return stateViews.first { it.first == State.PROGRESS }.second
+    }
+
+    fun showLoadingProgressState(@StringRes messageRes: Int = R.string.loading, newProgress: Int = 0) {
+        showLoadingProgressState(context.getString(messageRes), newProgress)
     }
 
     /**
@@ -160,9 +198,10 @@ class StateLayout : RelativeLayout {
      * [title] default: No item found
      * [message] default: Enjoy free day
      */
-    fun showEmptyState(iconDrawable: Drawable = emptyImage,
-                       title: String = emptyTitle,
-                       message: String = emptyContent
+    fun showEmptyState(
+            iconDrawable: Drawable = emptyImage,
+            title: String = emptyTitle,
+            message: String = emptyContent
     ) {
         showStateInternal(State.EMPTY)
         lblEmptyTitle.text = title
@@ -200,6 +239,8 @@ class StateLayout : RelativeLayout {
 
 
     private fun showStateInternal(toState: State) {
+//        dismissAllState()
+//        stateViews.firstOrNull { it.first == toState }.apply { this?.second?.show() }
         // confirm state views are ready in layout,
         // otherwise add them all.
         if (!hasStateViewChild()) {
@@ -208,8 +249,8 @@ class StateLayout : RelativeLayout {
             }
         }
 
-        // by controlling state views' visibility
-        // to show or dismiss state view.
+//         by controlling state views' visibility
+//         to show or dismiss state view.
         stateViews.forEach { (state, view) ->
             if (state != toState)
                 view.visibility = View.GONE
@@ -225,17 +266,20 @@ class StateLayout : RelativeLayout {
     }
 
     private fun makeView(state: State): View {
-        when (state) {
-            State.EMPTY -> {
-                return makeEmptyView()
+        return when (state) {
+            State.EMPTY    -> {
+                makeEmptyView()
             }
-            State.LOADING -> {
-                return makeLoadingView()
+            State.LOADING  -> {
+                makeLoadingView()
             }
-            State.ERROR -> {
-                return makeErrorView()
+            State.ERROR    -> {
+                makeErrorView()
             }
-            else -> throw Error()
+            State.PROGRESS -> {
+                makeProgressView()
+            }
+            else           -> throw NotImplementedError("not yet implemented for state $state")
         }
     }
 
@@ -275,6 +319,7 @@ class StateLayout : RelativeLayout {
             lblErrorContent = textView(errorContent) {
                 textSize = errorStateContentTextSize
                 textColor = errorStateContentTextColor
+                gravity = Gravity.CENTER_HORIZONTAL
             }.lparams(wrapContent, wrapContent) {
                 gravity = Gravity.CENTER_HORIZONTAL
                 horizontalMargin = dip(56)
@@ -286,39 +331,58 @@ class StateLayout : RelativeLayout {
             btnErrorRetry = button(errorStateButtonText) {
                 setBackgroundColor(errorStateButtonBackgroundColor)
                 textColor = errorStateButtonTextColor
+            }.lparams {
+                gravity = Gravity.CENTER_HORIZONTAL
+                padding = dip(15)
             }
+        }
+    }
+
+    private lateinit var loadingPd: ProgressBar
+    //    private lateinit var loadingPdHorizontal: ProgressBar
+    private lateinit var lblLoadingContent: TextView
+
+    private fun makeLoadingView(): View {
+
+        return relativeLayout {
+            backgroundColor = loadingStateBackgroundColor
+            lparams(matchParent, matchParent) {
+                padding = dip(35)
+            }
+
+            verticalLayout {
+                // progress bar
+                loadingPd = progressBar {
+                }.lparams(wrapContent, wrapContent) {
+                    width = loadingStateProgressBarWidth
+                    height = loadingStateProgressBarHeight
+                    gravity = Gravity.CENTER
+                    bottomMargin = dip(20)
+                }
+
+                // content
+                lblLoadingContent = textView(loadingContent) {
+                    textColor = loadingContentTextColor
+                }.lparams(wrapContent, wrapContent) {
+                    gravity = Gravity.CENTER_HORIZONTAL
+                }
+            }.lparams {
+                centerInParent()
+            }
+
         }
 
     }
 
-    private lateinit var loadingPd: ProgressBar
-    private lateinit var lblLoadingContent: TextView
-
-    private fun makeLoadingView(): View {
-        return verticalLayout {
-            backgroundColor = loadingStateBackgroundColor
-            lparams(matchParent, matchParent) {
-                padding = dip(15)
-                topMargin = dip(40)
-            }
-
-            // progress bar
-            loadingPd = progressBar {
-            }.lparams(wrapContent, wrapContent) {
-                width = loadingStateProgressBarWidth
-                height = loadingStateProgressBarHeight
-                gravity = Gravity.CENTER
-            }
-
-            // content
-            lblLoadingContent = textView(loadingContent) {
-                textColor = loadingContentTextColor
-            }.lparams(wrapContent, wrapContent) {
-                topMargin = dip(20)
-                gravity = Gravity.CENTER_HORIZONTAL
-            }
+    @SuppressLint("RestrictedApi")
+    inline fun ViewManager.myHorizontalProgressBar(init: ProgressBar.() -> Unit): ProgressBar {
+        return ankoView({ ProgressBar(ContextThemeWrapper(it, R.style.Widget_AppCompat_ProgressBar_Horizontal), null, 0) }, 0) {
+            init()
         }
+    }
 
+    private fun makeProgressView(): View {
+        return context.layoutInflater.inflate(R.layout.statelayout_progress_horizontal, this, false)
     }
 
     private lateinit var imgEmptyIcon: ImageView
@@ -327,6 +391,12 @@ class StateLayout : RelativeLayout {
 
     private fun makeEmptyView(): View {
         return verticalLayout {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                elevation = 1000f
+            } else {
+                //todo
+            }
+            isClickable = true
             backgroundColor = emptyStateBackgroundColor
             gravity = Gravity.CENTER_HORIZONTAL
             padding = dip(15)
@@ -339,7 +409,7 @@ class StateLayout : RelativeLayout {
                 gravity = Gravity.CENTER_HORIZONTAL
                 width = emptyStateImageWidth
                 height = emptyStateImageHeight
-                topMargin = dip(30)
+                topMargin = dip(40)
             }
 
             // title
@@ -348,7 +418,7 @@ class StateLayout : RelativeLayout {
                 textColor = emptyStateTitleTextColor
             }.lparams(wrapContent, wrapContent) {
                 gravity = Gravity.CENTER_HORIZONTAL
-                topMargin = dip(10)
+                topMargin = dip(20)
                 horizontalMargin = dip(16)
             }
 
@@ -360,11 +430,21 @@ class StateLayout : RelativeLayout {
                 setLineSpacing(5.6f, 1f)
             }.lparams(wrapContent, wrapContent) {
                 horizontalMargin = dip(56)
-                topMargin = dip(10)
+                topMargin = dip(20)
                 bottomMargin = dip(16)
             }
         }
     }
+
+    fun updateLoadingProgress(progress: Int) {
+        stateViews
+                .firstOrNull { (state, view) -> state == State.PROGRESS }
+                ?.apply { this.second.pbHorizontal.progress = progress }
+    }
+}
+
+private fun Context.getCompatibleColor(@ColorRes colorRes: Int): Int {
+    return ContextCompat.getColor(this, colorRes)
 }
 
 
@@ -376,5 +456,5 @@ private fun View.removeParentView(): View {
 
 
 enum class State {
-    LOADING, EMPTY, ERROR, CONTENT
+    LOADING, EMPTY, ERROR, CONTENT, PROGRESS
 }

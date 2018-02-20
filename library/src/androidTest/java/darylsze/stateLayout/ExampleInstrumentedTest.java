@@ -1,4 +1,4 @@
-package movie6.stateLayout;
+package darylsze.stateLayout;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
