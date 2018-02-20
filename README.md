@@ -138,6 +138,7 @@ fun callApi(){
 
 <a name="release-note"></a>Release note
 --
+Version 2 - 20-2-2018
 - add horizontal progress layout
 - add constraint layout dependency
 - add horizontal progress layout
