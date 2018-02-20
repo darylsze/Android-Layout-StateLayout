@@ -1,4 +1,5 @@
 # Android-StateLayout-Kotlin
+[![](https://jitpack.io/v/darylsze/Android-StateLayout-Kotlin.svg)](https://jitpack.io/#darylsze/Android-StateLayout-Kotlin)
 
 Simple usage:
 ---
@@ -134,3 +135,12 @@ fun callApi(){
      </declare-styleable>
 </resources>
 ```
+
+<a name="release-note"></a>Release note
+--
+<ADD> horizontal progress layout
+<ADD> constraint layout dependency
+<UPDATE> anko version
+<UPDATE> gradle version to 3.0.1
+<FIX> layout click event pass through to background layer
+<ADD> horizontal progress layout
