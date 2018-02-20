@@ -138,9 +138,9 @@ fun callApi(){
 
 <a name="release-note"></a>Release note
 --
-<ADD> horizontal progress layout
-<ADD> constraint layout dependency
-<UPDATE> anko version
-<UPDATE> gradle version to 3.0.1
-<FIX> layout click event pass through to background layer
-<ADD> horizontal progress layout
+- add horizontal progress layout
+- add constraint layout dependency
+- add horizontal progress layout
+- update anko version
+- update gradle version to 3.0.1
+- fix layout click event pass through to background layer
